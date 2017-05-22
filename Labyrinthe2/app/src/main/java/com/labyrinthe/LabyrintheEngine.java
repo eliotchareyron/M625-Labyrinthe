@@ -29,10 +29,6 @@ public class LabyrintheEngine {
 
     private SensorManager mManager = null;
     private Sensor mAccelerometre = null;
-    private Sensor Light = null;
-    float l;
-
-
 
     SensorEventListener mSensorEventListener = new SensorEventListener() {
 
@@ -71,6 +67,7 @@ public class LabyrintheEngine {
                 }
             }
 
+
         @Override
         public void onAccuracyChanged(Sensor pSensor, int pAccuracy) {
 
@@ -81,7 +78,6 @@ public class LabyrintheEngine {
         mActivity = pView;
         mManager = (SensorManager) mActivity.getBaseContext().getSystemService(Service.SENSOR_SERVICE);
         mAccelerometre = mManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        Light = mManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
     }
 
@@ -93,7 +89,6 @@ public class LabyrintheEngine {
     // Arr�te le capteur
     public void stop() {
         mManager.unregisterListener(mSensorEventListener, mAccelerometre);
-        mManager.unregisterListener(mSensorEventListener,Light);
     }
 
     // Red�marre le capteur
