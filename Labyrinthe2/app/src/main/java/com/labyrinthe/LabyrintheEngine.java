@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 public class LabyrintheEngine {
     private Boule mBoule = null;
@@ -28,41 +29,47 @@ public class LabyrintheEngine {
 
     private SensorManager mManager = null;
     private Sensor mAccelerometre = null;
+    private Sensor Light = null;
+    float l;
+
+
 
     SensorEventListener mSensorEventListener = new SensorEventListener() {
 
         @Override
         public void onSensorChanged(SensorEvent pEvent) {
-            float x = pEvent.values[0];
-            float y = pEvent.values[1];
 
-            if(mBoule != null) {
-                // On met � jour les coordonn�es de la boule
-                RectF hitBox = mBoule.putXAndY(x, y);
 
-                // Pour tous les blocs du labyrinthe
-                for(Bloc block : mBlocks) {
-                    // On cr�e un nouveau rectangle pour ne pas modifier celui du bloc
-                    RectF inter = new RectF(block.getRectangle());
-                    if(inter.intersect(hitBox)) {
-                        // On agit diff�rement en fonction du type de bloc
-                        switch(block.getType()) {
-                            case TROU:
-                                mActivity.showDialog(MainActivity.DEFEAT_DIALOG);
-                                break;
+                float x = pEvent.values[0];
+                float y = pEvent.values[1];
 
-                            case DEPART:
-                                break;
+                if (mBoule != null) {
+                    // On met � jour les coordonn�es de la boule
+                    RectF hitBox = mBoule.putXAndY(x, y);
 
-                            case ARRIVEE:
-                                mActivity.showDialog(MainActivity.VICTORY_DIALOG);
-                                break;
+                    // Pour tous les blocs du labyrinthe
+                    for (Bloc block : mBlocks) {
+                        // On cr�e un nouveau rectangle pour ne pas modifier celui du bloc
+                        RectF inter = new RectF(block.getRectangle());
+                        if (inter.intersect(hitBox)) {
+                            // On agit diff�rement en fonction du type de bloc
+                            switch (block.getType()) {
+                                case TROU:
+                                    mActivity.showDialog(MainActivity.DEFEAT_DIALOG);
+                                    break;
+
+                                case DEPART:
+                                    break;
+
+                                case ARRIVEE:
+                                    mActivity.showDialog(MainActivity.VICTORY_DIALOG);
+                                    break;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
-        }
 
         @Override
         public void onAccuracyChanged(Sensor pSensor, int pAccuracy) {
@@ -74,9 +81,11 @@ public class LabyrintheEngine {
         mActivity = pView;
         mManager = (SensorManager) mActivity.getBaseContext().getSystemService(Service.SENSOR_SERVICE);
         mAccelerometre = mManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Light = mManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
     }
 
-    // Remet � z�ro l'emplacement de la boule
+    // Remet a zero l'emplacement de la boule
     public void reset() {
         mBoule.reset();
     }
@@ -84,12 +93,14 @@ public class LabyrintheEngine {
     // Arr�te le capteur
     public void stop() {
         mManager.unregisterListener(mSensorEventListener, mAccelerometre);
+        mManager.unregisterListener(mSensorEventListener,Light);
     }
 
     // Red�marre le capteur
     public void resume() {
         mManager.registerListener(mSensorEventListener, mAccelerometre, SensorManager.SENSOR_DELAY_GAME);
     }
+
 
     // Construit le labyrinthe
     public List<Bloc> buildLabyrinthe() {

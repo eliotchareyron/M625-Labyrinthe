@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends Activity {
     // Identifiant de la boÓte de dialogue de victoire
@@ -67,6 +68,7 @@ public class MainActivity extends Activity {
                 break;
 
             case DEFEAT_DIALOG:
+
                 builder.setCancelable(false)
                         .setMessage("La Terre a ÈtÈ dÈtruite ‡ cause de vos erreurs.")
                         .setTitle("Bah bravo !")
