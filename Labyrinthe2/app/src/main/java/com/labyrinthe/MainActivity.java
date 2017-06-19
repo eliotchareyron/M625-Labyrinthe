@@ -69,8 +69,7 @@ public class MainActivity extends Activity {
                         });
                 break;
             case DEFEAT_DIALOG:
-
-win = false;
+            win = false;
                 builder.setCancelable(false)
                         .setMessage("La Terre a èté dètruite à cause de vos erreurs.")
                         .setTitle("Bah bravo !")
@@ -91,11 +90,12 @@ win = false;
         Integer soundplay;
 
 
-        if(win = true) {
+        if(win == true) {
           soundplay =  R.raw.victory;
         }else {
-            soundplay =   R.raw.fatality;
+            soundplay = R.raw.fatality;
         }
+
         this.mediaPlayer = MediaPlayer.create(getApplicationContext(),soundplay);
         mEngine.stop();
 

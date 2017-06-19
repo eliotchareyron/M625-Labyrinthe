@@ -5,7 +5,7 @@ import android.graphics.RectF;
 
 public class Boule {
     // Rayon de la boule
-    public static final int RAYON = 5;
+    public static final int RAYON = 20;
 
     // Couleur de la boule
     private int mCouleur = Color.BLUE;
