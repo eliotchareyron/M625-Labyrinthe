@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 public class LabyrintheEngine {
@@ -51,6 +52,7 @@ public class LabyrintheEngine {
                             // On agit diff�rement en fonction du type de bloc
                             switch (block.getType()) {
                                 case TROU:
+
                                     mActivity.showDialog(MainActivity.DEFEAT_DIALOG);
                                     break;
 
